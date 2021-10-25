@@ -1,11 +1,6 @@
 import os
-
 import kfp
-import kfp.components as comp
 from kfp import dsl
-from kfp import onprem
-from kubernetes import client as k8s_client
-from kubernetes.client.models import V1EnvVar
 
 
 @dsl.pipeline(name="mnist pipeline", description="mnist pipeline")
@@ -47,5 +42,4 @@ if __name__ == "__main__":
     client.create_run_from_pipeline_func(
         mnist_pipeline,
         arguments={},
-        mode=kfp.dsl.PipelineExecutionMode.V2_COMPATIBLE,
     )
