@@ -27,6 +27,8 @@ jobs:
           docker push ssuwani/mnist_1_preprocess_data
           docker build kubeflow_pipeline/2_train_model -t ssuwani/mnist_2_train_model
           docker push ssuwani/mnist_2_train_model
+          docker build kubeflow_pipeline/3_evaluate_model -t ssuwani/mnist_3_evaluate_model
+          docker push ssuwani/mnist_3_evaluate_model
 
       - name: Slack Notification
         if: always()
