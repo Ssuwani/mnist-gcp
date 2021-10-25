@@ -2,17 +2,17 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:          
+    steps:
       - name: Check out
         uses: actions/checkout@v2
-      
+
       - name: Docker Login
         uses: docker/login-action@v1.8.0
         with:
@@ -25,13 +25,15 @@ jobs:
           docker push ssuwani/mnist_0_data
           docker build kubeflow_pipeline/1_preprocess_data -t ssuwani/mnist_1_preprocess_data
           docker push ssuwani/mnist_1_preprocess_data
-      
+          docker build kubeflow_pipeline/2_train_model -t ssuwani/mnist_2_train_model
+          docker push ssuwani/mnist_2_train_model
+
       - name: Slack Notification
         if: always()
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_ICON_EMOJI: ':bell:'
+          SLACK_ICON_EMOJI: ":bell:"
           SLACK_CHANNEL: mnist-project
-          SLACK_MESSAGE: 'Build/Push Images :building_construction: - ${{job.status}}'
+          SLACK_MESSAGE: "Build/Push Images :building_construction: - ${{job.status}}"
           SLACK_USERNAME: Github
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
