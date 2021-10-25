@@ -1,3 +1,5 @@
 suwan-mac.json
 .ipynb_checkpoints/
 settings.json
+*.zip
+*/*.zip
