@@ -14,12 +14,6 @@ train_x = np.load(
 train_y = np.load(
     file_io.FileIO(os.path.join(BUCKET_DIR, PROC_DATASET_DIR, "train_y.npy"), "rb")
 )
-test_x = np.load(
-    file_io.FileIO(os.path.join(BUCKET_DIR, PROC_DATASET_DIR, "test_x.npy"), "rb")
-)
-test_y = np.load(
-    file_io.FileIO(os.path.join(BUCKET_DIR, PROC_DATASET_DIR, "test_y.npy"), "rb")
-)
 
 model = build_mnist_model()
 
