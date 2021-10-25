@@ -29,6 +29,15 @@ def mnist_pipeline():
         .after(preprocess_data_1)
     )
 
+    evaluate_model_3 = (
+        dsl.ContainerOp(
+            name="evaluate model",
+            image="ssuwani/mnist_3_evaluate_model",
+        )
+        .set_display_name("evaluate model")
+        .after(train_model_2)
+    )
+
 
 if __name__ == "__main__":
     host = "https://17c0fa73382ff154-dot-asia-east1.pipelines.googleusercontent.com/"
