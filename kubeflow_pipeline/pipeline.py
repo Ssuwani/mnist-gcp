@@ -46,5 +46,6 @@ if __name__ == "__main__":
 
     client.create_run_from_pipeline_func(
         mnist_pipeline,
+        arguments={},
         mode=kfp.dsl.PipelineExecutionMode.V2_COMPATIBLE,
     )
