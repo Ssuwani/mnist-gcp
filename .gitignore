@@ -3,3 +3,6 @@ suwan-mac.json
 settings.json
 *.zip
 */*.zip
+*.json
+*/*.json
+tests/
