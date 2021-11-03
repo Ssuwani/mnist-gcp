@@ -7,35 +7,34 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    steps:
+    steps:          
       - name: Check out
         uses: actions/checkout@v2
-
-      - name: Docker Login
-        uses: docker/login-action@v1.8.0
+          
+      - uses: actions/setup-python@v2
         with:
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
-
-      - name: Build Images
+          python-version: '3.6.12'
+          architecture: x64
+      
+      - uses: BSFishy/pip-action@v1
+        with:
+          packages: |
+            kfp==1.8.6
+      - name: run components for make yaml file
         run: |
-          docker build kubeflow_pipeline/0_data -t ssuwani/mnist_0_data
-          docker push ssuwani/mnist_0_data
-          docker build kubeflow_pipeline/1_preprocess_data -t ssuwani/mnist_1_preprocess_data
-          docker push ssuwani/mnist_1_preprocess_data
-          docker build kubeflow_pipeline/2_train_model -t ssuwani/mnist_2_train_model
-          docker push ssuwani/mnist_2_train_model
-          docker build kubeflow_pipeline/3_evaluate_model -t ssuwani/mnist_3_evaluate_model
-          docker push ssuwani/mnist_3_evaluate_model
+          python components/0_load_data/load_data.py
+
+      - name: run pipeline to kubeflow
+        run: python pipeline.py
 
       - name: Slack Notification
         if: always()
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_ICON_EMOJI: ":bell:"
+          SLACK_ICON_EMOJI: ':bell:'
           SLACK_CHANNEL: mnist-project
-          SLACK_MESSAGE: "Build/Push Images :building_construction: - ${{job.status}}"
+          SLACK_MESSAGE: 'Upload & Run pipeline :rocket: - ${{job.status}}'
           SLACK_USERNAME: Github
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
