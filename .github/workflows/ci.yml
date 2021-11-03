@@ -14,8 +14,8 @@ jobs:
         env:
           PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
-       with:
-         args: info      
+        with:
+          args: info      
 
       - name: Check out
         uses: actions/checkout@v2
